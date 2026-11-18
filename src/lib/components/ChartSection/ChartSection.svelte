@@ -1,39 +1,39 @@
+<!-- A generative AI model wrote or edited portions of this file with the supervision of a human developer and careful human review. -->
+
 <script>
-  import SectionBreak from "$lib/components/SectionBreak/SectionBreak.svelte";
+  import SectionBreak from "#lib/components/SectionBreak/SectionBreak.svelte";
   import Chart from "./Chart.svelte";
+  import { isList } from "#lib/utils/content.js";
 
-  /** @type {{type: string, value: string}[]} */
-  export let content = [];
+  /**
+   * @typedef {Object} Props
+   * @property {{type: string, value: string}[]} [content]
+   * @property {Number} section
+   * @property {string} subhead
+   * @property {string} chart_title
+   * @property {string} chart_description
+   * @property {string} chart_source
+   * @property {string} chart_notes
+   * @property {string} chart_label
+   * @property {number | null} [chart_height]
+   * @property {string} default_chart
+   * @property {import("./Chart.svelte").Chart[]} [charts]
+   */
 
-  /** @type {Number} */
-  export let section;
-
-  /** @type {string} */
-  export let subhead;
-
-  /** @type {string} */
-  export let chart_title;
-
-  /** @type {string} */
-  export let chart_description;
-
-  /** @type {string} */
-  export let chart_source;
-
-  /** @type {string} */
-  export let chart_notes;
-
-  /** @type {string} */
-  export let chart_label;
-
-  /** @type {number | null} */
-  export let chart_height = null;
-
-  /** @type {string} */
-  export let default_chart;
-
-  /** @type {import("./Chart.svelte").Chart[]} */
-  export let charts = [];
+  /** @type {Props} */
+  let {
+    content = [],
+    section,
+    subhead,
+    chart_title,
+    chart_description,
+    chart_source,
+    chart_notes,
+    chart_label,
+    chart_height = null,
+    default_chart,
+    charts = []
+  } = $props();
 </script>
 
 <section>
@@ -56,6 +56,10 @@
         <div class="content-block">
           {#if block.type == "h4"}
             <h4 class="section-text-small-header">{@html block.value}</h4>
+          {:else if block.type == "h5"}
+            <h5 class="section-text-subhead">{@html block.value}</h5>
+          {:else if isList(block.value)}
+            {@html block.value}
           {:else}
             <p>{@html block.value}</p>
           {/if}
@@ -81,12 +85,50 @@
     margin: var(--spacing-8) 0 var(--spacing-4);
   }
 
+  /* Federal / State and Local subheads: font comes from the Theme h5 styles; only set spacing. */
+  h5.section-text-subhead {
+    margin: var(--spacing-6) 0 var(--spacing-2);
+  }
+  /* Beat `.theme h5`: 20/28 on small screens, 24/32 above 768px. */
+  div.section-text-wrapper h5.section-text-subhead {
+    font-size: var(--font-size-xl);
+    line-height: 28px;
+  }
+  @media (min-width: 769px) {
+    div.section-text-wrapper h5.section-text-subhead {
+      font-size: var(--font-size-2xl);
+      line-height: 32px;
+    }
+  }
+
+  /* Typography overrides: must be more specific than `.theme p`/`.theme h4` from dataviz-components 2.x.
+     Svelte wraps later scoping classes in :where(), so qualify the parent with its element. */
+  .section-text-wrapper h4.section-text-small-header {
+    font-size: var(--font-size-xl);
+    line-height: var(--line-height-normal);
+  }
+  div.section-text-wrapper :global(li) {
+    font-size: var(--font-size-large);
+    line-height: var(--line-height-normal);
+  }
+
   .section-chart-wrapper :global(.chart-wrapper) :global(.layout-block.body) {
     margin: 0;
   }
 
-  .section-text-wrapper p {
+  div.section-text-wrapper p {
     font-size: var(--font-size-large);
+    line-height: var(--line-height-normal);
+  }
+
+  @media (min-width: 769px) {
+    .section-text-wrapper h4.section-text-small-header {
+      font-size: var(--font-size-2xl);
+    }
+    div.section-text-wrapper p,
+    div.section-text-wrapper :global(li) {
+      line-height: var(--line-height-relaxed);
+    }
   }
 
   @media (min-width: 980px) {

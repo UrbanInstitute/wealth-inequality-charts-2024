@@ -1,4 +1,6 @@
-<script context="module">
+<!-- A generative AI model wrote or edited portions of this file with the supervision of a human developer and careful human review. -->
+
+<script module>
   if (typeof window !== "undefined") {
     window.addEventListener("message", function (a) {
       if (void 0 !== a.data["datawrapper-height"]) {
@@ -18,18 +20,17 @@
 
 <script>
   import { Block } from "@urbaninstitute/dataviz-components";
-  /** @type string */
-  export let chartId;
-  /** @type string */
-  export let title;
-  /** @type string */
-  export let label;
 
   /**
-   * The height of the datawrapper embed
-   * @type {number}
+   * @typedef {Object} Props
+   * @property {string} chartId
+   * @property {string} title
+   * @property {string} label
+   * @property {number} [height] - The height of the datawrapper embed
    */
-  export let height = 500;
+
+  /** @type {Props} */
+  let { chartId, title, label, height = 500 } = $props();
 </script>
 
 <Block>
@@ -38,13 +39,13 @@
       {title}
       aria-label={label}
       id="datawrapper-chart-{chartId}"
-      src="https://datawrapper.dwcdn.net/{chartId}/1/"
+      src="https://datawrapper.dwcdn.net/{chartId}/"
       scrolling="no"
       frameborder="0"
       style="width: 0; min-width: 100% !important; border: none;"
       {height}
       data-external="1"
-    />
+    ></iframe>
   </div>
 </Block>
 

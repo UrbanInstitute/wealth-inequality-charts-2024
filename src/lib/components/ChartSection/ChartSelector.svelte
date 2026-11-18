@@ -1,22 +1,17 @@
+<!-- A generative AI model wrote or edited portions of this file with the supervision of a human developer and careful human review. -->
+
 <script>
   import { logClickToGA } from "@urbaninstitute/dataviz-components";
-  /**
-   * List of variants
-   * @type {string[][]}
-   */
-  export let items = [[]];
 
   /**
-   * Accessible label for the group
-   * @type {string}
+   * @typedef {Object} Props
+   * @property {string[][]} [items] - List of variants
+   * @property {string} label - Accessible label for the group
+   * @property {string[]} activeItem - Current active item (one value per variant group)
    */
-  export let label;
 
-  /**
-   * Current active item
-   * @type {string[]} [activeItem=[]]
-   */
-  export let activeItem = items.map(([first, ...rest]) => first);
+  /** @type {Props} */
+  let { items = [[]], label, activeItem = $bindable() } = $props();
 </script>
 
 {#if items[0].length > 1}
@@ -28,9 +23,9 @@
           tabindex={0}
           role="radio"
           aria-checked={activeItem.includes(variant)}
-          on:click={(e) => {
-            // set item
-            activeItem[i] = variant;
+          onclick={(e) => {
+            // set item (reassign so the bound value updates in the parent)
+            activeItem = activeItem.map((v, j) => (j === i ? variant : v));
 
             // send analytics click
             logClickToGA(
