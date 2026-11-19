@@ -1,23 +1,5 @@
-/* Font loading borrowed from: https://github.com/UI-Research/lyndon/blob/dev/src/global/global.css */
+/* A generative AI model wrote or edited portions of this file with the supervision of a human developer and careful human review. */
 
-/* Import Lato font from Google fonts */
-@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,400&display=swap");
-/* Import Futura PT font from typekit */
-@import url("//use.typekit.net/lqo0ftp.css");
-
-/* WORKRISE */
-
-/* Import Franklin Gothic URW font from typekit */
-/* @import url("//use.typekit.net/ulx8avi.css"); */
-
-/* Import Merriweather font from Google fonts */
-/* @import url("https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&display=swap"); */
-
-/* END WORKRISE */
-
-/*
- * Font family defaults taken from : https://github.com/UI-Research/lyndon/blob/97dab753e4a0adebe000d5dfb409b776333d07d2/src/tailwind/tokens/font-family.json
-*/
 :root {
   --font-family-sans: Lato, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
@@ -431,6 +413,11 @@ em,
   color: var(--color-blue);
   text-decoration: none;
   font-weight: var(--font-weight-normal) !important;
+}
+
+/* Keep links bold when wrapped in <strong>. */
+p strong a {
+  font-weight: var(--font-weight-bold) !important;
 }
 
 .text-link:hover, p a:hover {

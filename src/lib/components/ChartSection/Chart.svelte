@@ -1,4 +1,6 @@
-<script context="module">
+<!-- A generative AI model wrote or edited portions of this file with the supervision of a human developer and careful human review. -->
+
+<script module>
   /**
    * @typedef {{id: string, label: string, variant: string[], height: number}} Chart
    */
@@ -7,60 +9,32 @@
 <script>
   import Datawrapper from "./Datawrapper.svelte";
   import ChartSelector from "./ChartSelector.svelte";
-  /**
-   * Chart title
-   * @type {string}
-   */
-  export let title;
 
   /**
-   * Chart description
-   * @type {string}
+   * @typedef {Object} Props
+   * @property {string} title - Chart title
+   * @property {string} description - Chart description
+   * @property {string} label - Chart accessibile label
+   * @property {string} source - Chart source
+   * @property {string} notes - Chart notes
+   * @property {string} id - Chart Datawrapper ID
+   * @property {number} chart_height - Height of chart embed
+   * @property {string} default_chart - Default chart variant
+   * @property {Chart[]} charts - List of chart objects
    */
-  export let description;
 
-  /**
-   * Chart accessibile label
-   * @type {string}
-   */
-  export let label;
-
-  /**
-   * Chart source
-   * @type {string}
-   */
-  export let source;
-
-  /**
-   * Chart notes
-   * @type {string}
-   */
-  export let notes;
-
-  /**
-   * Chart Datawrapper ID
-   * @type {string}
-   */
-  export let id;
-
-  /**
-   * Height of chart embed
-   * @type {number}
-   */
-  export let chart_height;
-
-  /**
-   * Default chart variant
-   * @type {string}
-   */
-  export let default_chart;
-
-  /**
-   * List of chart objects
-   * @type {Chart[]}
-   */
-  export let charts;
-
+  /** @type {Props} */
+  let {
+    title,
+    description,
+    label,
+    source,
+    notes,
+    id,
+    chart_height,
+    default_chart,
+    charts
+  } = $props();
 
   /**
    * @param {string[][]} variantsList
@@ -102,16 +76,19 @@
     return variantKey.split("/");
   }
 
-  /** @type {string[]} */
-  let activeVariant;
+  let chartLookup = $derived(getChartLookup(charts));
+  let chartVariants = $derived(getChartVariants(Array.from(chartLookup.keys()).map(variantKeyToList)));
 
-  $: if (default_chart) {
-    activeVariant = variantKeyToList(default_chart);
-  }
+  /**
+   * Selected value for each variant group. Starts at `default_chart` if set, otherwise the first
+   * option in each group.
+   * @type {string[]}
+   */
+  let activeVariant = $derived(
+    default_chart ? variantKeyToList(default_chart) : chartVariants.map(([first]) => first)
+  );
 
-  $: chartLookup = getChartLookup(charts);
-  $: chartVariants = getChartVariants(Array.from(chartLookup.keys()).map(variantKeyToList));
-  $: activeChart = chartLookup.get(variantListToKey(activeVariant)) || charts[0];
+  let activeChart = $derived(chartLookup.get(variantListToKey(activeVariant)) || charts[0]);
 </script>
 
 <div class="chart-wrapper">

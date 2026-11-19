@@ -1,31 +1,32 @@
+<!-- A generative AI model wrote or edited portions of this file with the supervision of a human developer and careful human review. -->
+
 <script>
   import { Block } from "@urbaninstitute/dataviz-components";
   import Headline from "../Headline/Headline.svelte";
 
-  /** @type {string} */
-  export let headline;
-  /** @type {string | null} */
-  export let subhead = null;
-  /** @type {string} */
-  export let date;
-
-  /** @type {string | null} */
-  export let image = null;
-
-  /** @type {string | null} */
-  export let imageAlt = null;
-
-  /** @type {string | null} */
-  export let imageCredit = null;
-
   /**
-   * Optional URL to share on social media. Will include social buttons if defined.
-   * @type {string | null}
+   * @typedef {Object} Props
+   * @property {string} headline
+   * @property {string | null} [subhead]
+   * @property {string} date
+   * @property {string | null} [image]
+   * @property {string | null} [imageAlt]
+   * @property {string | null} [imageCredit]
+   * @property {string | null} [shareUrl] - Optional URL to share on social media. Will include social buttons if defined.
+   * @property {string} eyebrow
    */
-  export let shareUrl = null;
 
-  /** @type {string} */
-  export let eyebrow;
+  /** @type {Props} */
+  let {
+    headline,
+    subhead = null,
+    date,
+    image = null,
+    imageAlt = null,
+    imageCredit = null,
+    shareUrl = null,
+    eyebrow
+  } = $props();
 </script>
 
 <div class="hero-wrap">
@@ -54,8 +55,10 @@
     margin-left: var(--spacing-4);
     margin-top: var(--spacing-4);
   }
-  figcaption p {
+  /* Parent class beats the `.theme p` rule from dataviz-components 2.x */
+  .hero-wrap figcaption p {
     font-size: var(--font-size-small);
+    line-height: var(--line-height-normal);
     font-style: italic;
     margin-bottom: 0;
     margin: 0;
@@ -84,6 +87,11 @@
   @media screen and (min-width: 768px) {
     .hero-wrap {
       margin-bottom: var(--spacing-16);
+    }
+  }
+  @media screen and (min-width: 769px) {
+    .hero-wrap figcaption p {
+      line-height: var(--line-height-relaxed);
     }
   }
 </style>

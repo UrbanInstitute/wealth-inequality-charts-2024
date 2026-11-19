@@ -1,4 +1,6 @@
-import { base } from "$app/paths";
+// A generative AI model wrote or edited portions of this file with the supervision of a human developer and careful human review.
+
+import { resolve } from "$app/paths";
 
 /** Constants for constructing absolute URLs in different project environemnts. */
 export const STAGING_BASE_URL = "https://apps-staging.urban.org";
@@ -10,7 +12,8 @@ export const PRODUCTION_BASE_URL = "https://apps.urban.org";
  * @return {string} The relative URL with the base path prepended.
  */
 export function getProjectUrl(url) {
-  return `${base}/${url}`;
+  // resolve("/") returns the base path plus a trailing slash, e.g. "/features/my-project/"
+  return `${resolve("/")}${url}`;
 }
 
 /**

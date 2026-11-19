@@ -1,15 +1,20 @@
+<!-- A generative AI model wrote or edited portions of this file with the supervision of a human developer and careful human review. -->
+
 <script>
-  /** @type { string } **/
-  export let number;
-  /** @type { string } **/
-  export let subhead;
-  /** @type { string } **/
-  export let accentColor = "#9d9d9d";
+  /**
+   * @typedef {Object} Props
+   * @property {string} number
+   * @property {string} subhead
+   * @property {string} [accentColor]
+   */
+
+  /** @type {Props} */
+  let { number, subhead, accentColor = "#9d9d9d" } = $props();
 </script>
 
 <div class="section-break" style:--accent-color={accentColor}>
   <span class="section-number">{number}.</span>
-  <div class="section-line" />
+  <div class="section-line"></div>
 </div>
 <h2>{subhead}</h2>
 
@@ -39,6 +44,12 @@
   h2 {
     margin-bottom: var(--spacing-4);
   }
+  /* Typography override: must be more specific than `.theme h2` from dataviz-components 2.x.
+     Svelte wraps later scoping classes in :where(), so `.section-break + h2` alone only ties it. */
+  div.section-break + h2 {
+    font-size: var(--font-size-3xl);
+    line-height: var(--line-height-snug);
+  }
   @media screen and (min-width: 461px) {
     .section-break {
       margin-bottom: var(--spacing-8);
@@ -58,6 +69,9 @@
     }
     .section-number {
       margin-right: var(--spacing-4);
+    }
+    div.section-break + h2 {
+      font-size: var(--font-size-4xl);
     }
     .section-line {
       /* transform: translateY(0); */

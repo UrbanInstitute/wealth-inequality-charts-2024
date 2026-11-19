@@ -1,21 +1,19 @@
+<!-- A generative AI model wrote or edited portions of this file with the supervision of a human developer and careful human review. -->
+
 <script>
   import { Block, SocialShare } from "@urbaninstitute/dataviz-components";
 
-  /** @type {string} */
-  export let headline;
-  /** @type {string | null} */
-  export let subhead = null;
-  /** @type {string} */
-  export let date;
-
   /**
-   * Optional URL to share on social media. Will include social buttons if defined.
-   * @type {string | null}
+   * @typedef {Object} Props
+   * @property {string} headline
+   * @property {string | null} [subhead]
+   * @property {string} date
+   * @property {string | null} [shareUrl] - Optional URL to share on social media. Will include social buttons if defined.
+   * @property {string} eyebrow
    */
-  export let shareUrl = null;
 
-  /** @type {string} */
-  export let eyebrow;
+  /** @type {Props} */
+  let { headline, subhead = null, date, shareUrl = null, eyebrow } = $props();
 </script>
 
 <div class="headline-wrap">
@@ -58,9 +56,24 @@
     text-transform: uppercase;
   }
 
+  /* Typography overrides: the parent class beats the `.theme p` rule from dataviz-components 2.x.
+     The h1 intentionally uses the 2.x theme size. */
+  .headline-wrap .headline-eyebrow,
+  .headline-wrap .headline--date {
+    font-size: var(--font-size-small);
+    line-height: var(--line-height-normal);
+  }
+  .headline-wrap .headline--date {
+    color: var(--color-gray-shade-darker);
+  }
+
   @media screen and (min-width: 769px) {
     .headline-wrap {
       margin-top: var(--spacing-20);
+    }
+    .headline-wrap .headline-eyebrow,
+    .headline-wrap .headline--date {
+      line-height: var(--line-height-relaxed);
     }
   }
 </style>
